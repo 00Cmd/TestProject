@@ -25,7 +25,7 @@ public class Database {
 
     private Database() {
         //TODO: Configure to make URL and Port configurable
-        this.mongoClient = new MongoClient("localhost", 27017);
+        this.mongoClient = Client.getInstance().getClient();
         this.database = mongoClient.getDatabase("testLocaleDatabase");
         this.data = database.getCollection("mockData");
     }
@@ -36,8 +36,6 @@ public class Database {
 //            data.drop();
             System.out.println("Start inserting document");
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 //            List<Document> documentList = new ArrayList<Document>();
@@ -47,7 +45,7 @@ public class Database {
             System.out.println("Done inserting document");
 
         } finally {
-            mongoClient.close();
+//            mongoClient.close();
         }
     }
 
