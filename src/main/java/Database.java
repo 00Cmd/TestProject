@@ -8,10 +8,6 @@ import org.bson.Document;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 public class Database {
     private MongoClient mongoClient;
@@ -28,7 +24,8 @@ public class Database {
     }
 
     private Database() {
-        this.mongoClient = new MongoClient();
+        //TODO: Configure to make URL and Port configurable
+        this.mongoClient = new MongoClient("localhost", 27017);
         this.database = mongoClient.getDatabase("testLocaleDatabase");
         this.data = database.getCollection("mockData");
     }
