@@ -42,6 +42,14 @@ public class Database {
         }
     }
 
+    private boolean isConnectionSlow(long l) {
+        int seconds = (int) ( l / 1000) % 60 ;
+        if (seconds > 3) {
+            return true;
+        }
+        return false;
+    }
+
     public void getAllStamps() {
         MongoCollection<Document> collection = database.getCollection("mockData");
         MongoCursor<Document> cursor = collection.find().iterator();
@@ -53,5 +61,4 @@ public class Database {
             cursor.close();
         }
     }
-
 }

@@ -3,14 +3,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]) throws InterruptedException {
-        start();
-        getInput();
+//        start();
+//        getInput();
+
+
 
     }
 
     private static void getInput() {
         new java.util.Timer().schedule(
-
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
@@ -23,8 +24,6 @@ public class Main {
                 },
                 3000
         );
-
-
     }
 
     private static void start() {
