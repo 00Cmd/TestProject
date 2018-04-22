@@ -30,7 +30,7 @@ public class Database {
         this.data = database.getCollection("mockData");
     }
 
-    public void insert() {
+    public void insert(Document document) {
         try {
 //            System.out.println("Drop collection");
 //            data.drop();
@@ -39,7 +39,6 @@ public class Database {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
 //            List<Document> documentList = new ArrayList<Document>();
-            Document document = new Document("timeAdded", timestamp);
 
             data.insertOne(document);
             System.out.println("Done inserting document");

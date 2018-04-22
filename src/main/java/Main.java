@@ -1,35 +1,21 @@
-import java.io.IOException;
-import java.net.Socket;
+import org.bson.Document;
+
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
-    private static DatabaseThread mDatabaseThread;
-    private static BufferThread mBufferThread;
-    public static void main(String args[]) {
-        while (isAlive()) {
-            try {
-                mDatabaseThread = new DatabaseThread();
-                mDatabaseThread.run();
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                System.out.println(e.getLocalizedMessage());
-            }
-        }
-        while(!isAlive()) {
-            mBufferThread = new BufferThread();
-            mBufferThread.run();
+    public static void main(String args[]) throws InterruptedException {
 
-        }
+        LinkedBlockingQueue<Document> queue = new LinkedBlockingQueue<>();
+        ProducerThread mProducer = new ProducerThread(queue);
+        ConsumerThread mConsumer = new ConsumerThread(queue);
+        new Thread(mProducer).start();
+        new Thread(mConsumer).start();
+
+
+
+
     }
 
-    public static boolean isAlive() {
-        try {
-            Socket s = new Socket(Constant.URL, Constant.PORT);
-            System.out.println("Server status: online");
-            return true;
-        } catch (IOException ex) {
-            System.out.printf("Server status: offline");
-            return false;
-        }
-    }
+
 
 }
