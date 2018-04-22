@@ -34,12 +34,12 @@ public class Client {
     }
 
     public static boolean reconnect() {
-        Socket s = new Socket();
-        SocketAddress sa = new InetSocketAddress(Constant.URL, Constant.PORT);
+//        Socket s = new Socket();
+//        SocketAddress sa = new InetSocketAddress(Constant.URL, Constant.PORT);
         while (!isAlive()) {
-            try {
-                s.connect(sa); // try the connection
-            } catch (IOException ex) {
+//            try {
+//                s.connect(sa); // try the connection
+//            } catch (IOException ex) {
                 // ignore we may have to try lots of times
                 try {
                     Thread.sleep(5000);
@@ -48,7 +48,6 @@ public class Client {
                     return false;
                 }
             }
-        }
         return true;
     }
 
