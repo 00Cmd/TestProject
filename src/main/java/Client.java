@@ -36,7 +36,7 @@ public class Client {
     public static boolean reconnect() {
         Socket s = new Socket();
         SocketAddress sa = new InetSocketAddress(Constant.URL, Constant.PORT);
-        while (!s.isConnected()) {
+        while (!isAlive()) {
             try {
                 s.connect(sa); // try the connection
             } catch (IOException ex) {

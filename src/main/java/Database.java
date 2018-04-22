@@ -32,16 +32,12 @@ public class Database {
 
     public void insert(Document document) {
         try {
-//            System.out.println("Drop collection");
 //            data.drop();
-            System.out.println("Start inserting document");
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-//            List<Document> documentList = new ArrayList<Document>();
 
             data.insertOne(document);
-            System.out.println("Done inserting document");
 
         } finally {
 //            mongoClient.close();
@@ -58,7 +54,6 @@ public class Database {
         } finally {
             cursor.close();
         }
-//        Document myDoc = collection.find().first();
     }
 
 }
