@@ -15,6 +15,7 @@ public class ProductionProcess {
         this.QUEUE = new LinkedList<Document>();
         this.LOCK = new ReentrantLock();
 
+
     }
 
     public void produce() throws InterruptedException {
@@ -43,8 +44,9 @@ public class ProductionProcess {
 //                    System.out.println("Consumed from queue: " + mDocument);
                         while(this.QUEUE.size() != 0) {
                             mDocument = (Document) this.QUEUE.poll();
-                            System.out.println("Consumed " + mDocument.toString());
                             mDatabase.insert(mDocument);
+                            System.out.println("Consumed " + mDocument.toString());
+
                         }
                     }
             } finally {

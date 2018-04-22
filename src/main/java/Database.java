@@ -30,13 +30,11 @@ public class Database {
         this.data = database.getCollection("mockData");
     }
 
+
     public void insert(Document document) {
         try {
 //            data.drop();
-
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-
             data.insertOne(document);
 
         } finally {

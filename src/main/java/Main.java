@@ -1,7 +1,5 @@
-import org.bson.Document;
 
 import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
     public static void main(String args[]) throws InterruptedException {
@@ -11,11 +9,22 @@ public class Main {
     }
 
     private static void getInput() {
-        Scanner reader = new Scanner(System.in);
-        System.out.println("Press any key to get data from db and close the app .");
-        String n = reader.next();
-        Database.getInstance().getAllStamps();
-        reader.close();
+        new java.util.Timer().schedule(
+
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        Scanner reader = new Scanner(System.in);
+                        System.out.println("Press any key to get data from db and close the app .");
+                        String n = reader.next();
+                        Database.getInstance().getAllStamps();
+                        reader.close();
+                    }
+                },
+                3000
+        );
+
+
     }
 
     private static void start() {
