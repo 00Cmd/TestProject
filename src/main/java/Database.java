@@ -4,6 +4,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Indexes;
 import org.bson.Document;
 
 import java.sql.Timestamp;
@@ -24,38 +26,38 @@ public class Database {
     }
 
     private Database() {
-        //TODO: Configure to make URL and Port configurable
         this.mongoClient = Client.getInstance().getClient();
         this.database = mongoClient.getDatabase("testLocaleDatabase");
         this.data = database.getCollection("mockData");
     }
 
 
+    private void dropDb() {
+        data.drop();
+    }
     public void insert(Document document) {
         try {
-//            data.drop();
+//            dropDb();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             data.insertOne(document);
-
-        } finally {
-//            mongoClient.close();
-        }
+        } finally { }
     }
 
     private boolean isConnectionSlow(long l) {
-        int seconds = (int) ( l / 1000) % 60 ;
+        int seconds = (int) ((l - System.currentTimeMillis()) / 1000) % 60 ;
         if (seconds > 3) {
             return true;
         }
         return false;
     }
 
+
     public void getAllStamps() {
-        MongoCollection<Document> collection = database.getCollection("mockData");
-        MongoCursor<Document> cursor = collection.find().iterator();
+        MongoCursor<Document> cursor = data.find().iterator();
         try {
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toString());
+
             }
         } finally {
             cursor.close();

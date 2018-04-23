@@ -3,27 +3,27 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]) throws InterruptedException {
-//        start();
-//        getInput();
-
-
+        start();
+        getInput();
 
     }
 
     private static void getInput() {
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        Scanner reader = new Scanner(System.in);
-                        System.out.println("Press any key to get data from db and close the app .");
-                        String n = reader.next();
-                        Database.getInstance().getAllStamps();
-                        reader.close();
-                    }
-                },
-                3000
-        );
+        if (Client.isAlive()) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            Scanner reader = new Scanner(System.in);
+                            System.out.println("Press any key to get data from db and close the app .");
+                            String n = reader.next();
+                            Database.getInstance().getAllStamps();
+                            reader.close();
+                        }
+                    },
+                    3000
+            );
+        }
     }
 
     private static void start() {
@@ -49,7 +49,7 @@ public class Main {
                 {
                     try
                     {
-                        process.receive();
+                        process.reveice();
                         Thread.sleep(1000);
                     }
                     catch(InterruptedException exc)

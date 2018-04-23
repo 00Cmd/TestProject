@@ -1,4 +1,3 @@
-import com.mongodb.gridfs.CLI;
 import org.bson.Document;
 
 import java.sql.Timestamp;
@@ -31,7 +30,7 @@ public class ProductionProcess {
         }
     }
 
-    public void receive() throws InterruptedException {
+    public void reveice() throws InterruptedException {
         if (Client.isAlive()) {
             this.LOCK.lock();
             try {
@@ -53,7 +52,7 @@ public class ProductionProcess {
                 this.LOCK.unlock();
             }
         } else {
-            Client.reconnect();
+            Client.reconnectToServer();
         }
     }
 }

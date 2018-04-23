@@ -19,9 +19,6 @@ public class Client {
 
     private Client() { this.mongoClient = new MongoClient(Constant.URL, Constant.PORT); }
 
-    public MongoClient getClient() {
-        return mongoClient;
-    }
 
     public static boolean isAlive() {
         try {
@@ -33,7 +30,7 @@ public class Client {
         }
     }
 
-    public static boolean reconnect() {
+    public static boolean reconnectToServer() {
       SocketAddress sa = new InetSocketAddress(Constant.URL, Constant.PORT);
         while (!isAlive()) {
                 try {
