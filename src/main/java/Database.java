@@ -40,6 +40,7 @@ public class Database {
 //            dropDb();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             data.insertOne(document);
+
         } finally { }
     }
 
@@ -57,7 +58,6 @@ public class Database {
         try {
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toString());
-
             }
         } finally {
             cursor.close();

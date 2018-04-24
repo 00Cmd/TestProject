@@ -19,6 +19,9 @@ public class Client {
 
     private Client() { this.mongoClient = new MongoClient(Constant.URL, Constant.PORT); }
 
+    public  MongoClient getClient() {
+        return this.mongoClient;
+    }
 
     public static boolean isAlive() {
         try {
