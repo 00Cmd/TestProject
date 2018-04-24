@@ -31,6 +31,7 @@ public class Database {
         this.mongoClient = Client.getInstance().getClient();
         this.database = mongoClient.getDatabase("testLocaleDatabase");
         this.data = database.getCollection("mockData");
+        data.createIndex(Indexes.ascending("timeAdded"));
     }
 
 
@@ -42,7 +43,7 @@ public class Database {
 //            dropDb();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             data.insertOne(document);
-//            data.createIndex(Indexes.ascending("timeAdded"));
+
 
 
         } finally { }
