@@ -49,15 +49,6 @@ public class Database {
         } finally { }
     }
 
-    private boolean isConnectionSlow(long l) {
-        int seconds = (int) ((l - System.currentTimeMillis()) / 1000) % 60 ;
-        if (seconds > 3) {
-            return true;
-        }
-        return false;
-    }
-
-
     public void getAllStamps() {
         MongoCursor<Document> cursor = data.find().iterator();
         try {
