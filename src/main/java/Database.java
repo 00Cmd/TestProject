@@ -1,6 +1,8 @@
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -40,6 +42,8 @@ public class Database {
 //            dropDb();
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             data.insertOne(document);
+//            data.createIndex(Indexes.ascending("timeAdded"));
+
 
         } finally { }
     }
