@@ -1,24 +1,18 @@
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
-import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import org.bson.Document;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+
+
 
 public class Database {
-    private MongoClient mongoClient;
-    private MongoDatabase database;
     private MongoCollection<Document> data;
 
     private static Database sDatabase;
+
 
     public static Database getInstance() {
         if(sDatabase == null) {
@@ -28,35 +22,34 @@ public class Database {
     }
 
     private Database() {
-        this.mongoClient = Client.getInstance().getClient();
-        this.database = mongoClient.getDatabase("testLocaleDatabase");
+        int start = calculateTime(System.currentTimeMillis());
+
+
+        MongoDatabase database = Client.getInstance()
+                .getClient().getDatabase("testLocaleDatabase");
+
+        MongoClientOptions.Builder options_builder = new MongoClientOptions.Builder();
+        options_builder.maxConnectionIdleTime(30000).build();
+
         this.data = database.getCollection("mockData");
         data.createIndex(Indexes.ascending("timeAdded"));
+        int end = calculateTime(System.currentTimeMillis()) - start;
+        System.out.println("Db connection took " + end + " seconds");
+
     }
 
+    private int calculateTime(long time) { return (int) (time / 1000) % 60; }
 
-    private void dropDb() {
-        data.drop();
-    }
-    public void insert(Document document) {
-        try {
-//            dropDb();
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            data.insertOne(document);
+//    private void dropDb() { data.drop(); }
 
-
-
-        } finally { }
-    }
+    public void insert(Document document) { data.insertOne(document); }
 
     public void getAllStamps() {
-        MongoCursor<Document> cursor = data.find().iterator();
-        try {
+        try (MongoCursor<Document> cursor = data.find().iterator()) {
             while (cursor.hasNext()) {
                 System.out.println(cursor.next().toString());
             }
-        } finally {
-            cursor.close();
         }
     }
+
 }

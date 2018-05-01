@@ -2,9 +2,8 @@
 import com.mongodb.MongoClient;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
+
 
 public class Client {
     private static Client sClient;
@@ -23,9 +22,8 @@ public class Client {
         return this.mongoClient;
     }
 
-    public static boolean isAlive() {
-        try {
-            Socket s = new Socket(Constant.URL, Constant.PORT);
+    public boolean isAlive() {
+        try (Socket ignored =  new Socket(Constant.URL, Constant.PORT)) {
             return true;
         } catch (IOException ex) {
             System.out.println("Server status: offline");
@@ -33,16 +31,14 @@ public class Client {
         }
     }
 
-    public static boolean reconnectToServer() {
-      SocketAddress sa = new InetSocketAddress(Constant.URL, Constant.PORT);
+    public void reconnectToServer() {
         while (!isAlive()) {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
-                    return false;
+                    return;
                 }
             }
-        return true;
     }
 
 

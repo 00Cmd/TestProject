@@ -1,27 +1,38 @@
-
 import java.util.Scanner;
 
-public class Main {
+public class Main  {
     public static void main(String args[]) throws InterruptedException {
         start();
         getInput();
-
     }
 
     private static void getInput() {
-        if (Client.isAlive()) {
+        Client client = Client.getInstance();
+        if (client.isAlive()) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
                         public void run() {
-                            Scanner reader = new Scanner(System.in);
-                            System.out.println("Press any key to get data from db and close the app .");
-                            String n = reader.next();
-                            Database.getInstance().getAllStamps();
-                            reader.close();
+                            System.out.println("Type ( GET ) to get data.");
+                            System.out.println("Press Enter");
+                            Scanner scanner;
+                            try {
+                                scanner = new Scanner(System.in);
+                                while (true) {
+                                    if (scanner.nextLine().equalsIgnoreCase("get")) {
+                                        Database.getInstance().getAllStamps();
+                                        System.exit(1);
+                                    } else {
+                                        System.out.println("App started .");
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     },
-                    3000
+                    1000
             );
         }
     }
@@ -29,33 +40,26 @@ public class Main {
     private static void start() {
         ProductionProcess process = new ProductionProcess();
 
-        Runnable runnableProducer = new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        process.produce();
-                        Thread.sleep(1000);
-                    } catch (InterruptedException exc) {
-                        exc.printStackTrace();
-                    }
+        Runnable runnableProducer = () -> {
+            while (true) {
+                try {
+                    process.produce();
+                    Thread.sleep(1000);
+                } catch (InterruptedException exc) {
+                    exc.printStackTrace();
                 }
             }
         };
-        Runnable runnableConsumer = new Runnable() {
-            @Override public void run()
-            {
-                while(true)
+        Runnable runnableConsumer = () -> {
+            while(true) {
+                try
                 {
-                    try
-                    {
-                        process.reveice();
-                        Thread.sleep(1000);
-                    }
-                    catch(InterruptedException exc)
-                    {
-                        exc.printStackTrace();
-                    }
+                    process.reveice();
+                    Thread.sleep(1000);
+                }
+                catch(InterruptedException exc)
+                {
+                    exc.printStackTrace();
                 }
             }
         };
