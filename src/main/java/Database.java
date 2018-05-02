@@ -42,7 +42,14 @@ public class Database {
 
 //    private void dropDb() { data.drop(); }
 
-    public void insert(Document document) { data.insertOne(document); }
+    public void insert(Document document) {
+        if (document != null) {
+            data.insertOne(document);
+        } else {
+            System.out.printf("Document is null");
+        }
+    }
+
 
     public void getAllStamps() {
         try (MongoCursor<Document> cursor = data.find().iterator()) {

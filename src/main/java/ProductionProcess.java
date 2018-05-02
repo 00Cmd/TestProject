@@ -30,7 +30,6 @@ public class ProductionProcess {
                 synchronized (this) {
                 try {
                     Database mDatabase = Database.getInstance();
-
                     Document mDocument = this.queue.poll();
 
                     if (mDocument != null) {
@@ -40,7 +39,6 @@ public class ProductionProcess {
                             mDocument = this.queue.poll();
                             mDatabase.insert(mDocument);
                             System.out.println("Consumed " + mDocument.toString());
-
                         }
                     }
                 } catch (Exception e) {
